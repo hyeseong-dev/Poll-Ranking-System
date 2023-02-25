@@ -11,6 +11,7 @@
   "scripts": {
     "docker:compose": "docker-compose up -d",
     "client:dev": "npm run dev --workspace=client",
+    "start:dev": "nest start --watch",
     "server:dev": "wait-on tcp:6379 && npm run start:dev --workspace=server",
     "start": "concurrently 'npm:docker:compose' 'npm:server:dev' 'npm:client:dev'",
     "storybook": "npm run storybook --workspace=client",
@@ -32,5 +33,8 @@
     "concurrently": "^7.0.0",
     "prettier": "^2.5.1",
     "wait-on": "^6.0.1"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.0"
   }
 }

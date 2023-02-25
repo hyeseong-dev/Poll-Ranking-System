@@ -35,11 +35,11 @@ export class PollsRepository {
       topic,
       votesPerVoter,
       participants: {},
-      nominations: {},
-      rankings: {},
-      results: [],
+      // nominations: {},
+      // rankings: {},
+      // results: [],
       adminID: userID,
-      hasStarted: false,
+      // hasStarted: false,
     };
 
     this.logger.log(
