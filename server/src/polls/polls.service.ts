@@ -5,8 +5,8 @@ import { PollsRepository } from './polls.repository';
 import { CreatePollFields, JoinPollFields, ReJoinPollFields } from './types';
 
 @Injectable()
-export class PollService {
-  private readonly logger = new Logger(PollService.name);
+export class PollsService {
+  private readonly logger = new Logger(PollsService.name);
   constructor(
     private readonly pollsRepository: PollsRepository,
     private readonly jwtService: JwtService,
