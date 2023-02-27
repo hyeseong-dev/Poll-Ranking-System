@@ -21,10 +21,6 @@ export class JoinPollDto {
   pollID: string;
 
   @IsString()
-  @Length(6, 6)
-  userID: string;
-
-  @IsString()
   @Length(1, 25)
   name: string;
 }
