@@ -16,6 +16,16 @@ export type ReJoinPollFields = {
   name: string;
 };
 
+export interface AddParticipantFields {
+  pollID: string;
+  userID: string;
+  name: string;
+}
+export interface RemoveParticipantFields {
+  pollID: string;
+  userID: string;
+}
+
 export type CreatePollData = {
   pollID: string;
   topic: string;
@@ -27,6 +37,11 @@ export type AddParticipantData = {
   pollID: string;
   userID: string;
   name: string;
+};
+
+export type RemoveParticipantData = {
+  pollID: string;
+  userID: string;
 };
 
 // guard types

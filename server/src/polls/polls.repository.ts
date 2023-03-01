@@ -7,7 +7,11 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
 import { IORedisKey } from 'src/redis.module';
-import { AddParticipantData, CreatePollData } from './types';
+import {
+  AddParticipantData,
+  CreatePollData,
+  RemoveParticipantData,
+} from './types';
 import { Poll } from 'shared';
 import { error } from 'console';
 
@@ -39,7 +43,7 @@ export class PollsRepository {
       // rankings: {},
       // results: [],
       adminID: userID,
-      // hasStarted: false,
+      hasStarted: false,
     };
 
     this.logger.log(
@@ -108,19 +112,7 @@ export class PollsRepository {
         JSON.stringify(name),
       );
 
-      const pollJSON = await this.redisClient.send_command(
-        'JSON.GET',
-        key,
-        '.',
-      );
-
-      const poll = JSON.parse(pollJSON) as Poll;
-
-      this.logger.debug(
-        `Current Participants for pollID: ${pollID};)`,
-        poll.participants,
-      );
-      return poll;
+      return this.getPoll(pollID);
     } catch (error) {
       this.logger.error(
         `Failed to add a participant with userID/name: ${userID}/${name} to pollID: ${pollID}`,
@@ -129,7 +121,25 @@ export class PollsRepository {
     }
   }
 
-  // async removeParticipant(){}
+  async removeParticipant({
+    pollID,
+    userID,
+  }: RemoveParticipantData): Promise<Poll> {
+    this.logger.log(`removing userID: ${userID} from poll: ${pollID}`);
+
+    const key = `polls:${pollID}`;
+    const participantPath = `.participants.${userID}`;
+
+    try {
+      await this.redisClient.send_command('JSON.DEL', key, participantPath);
+      return this.getPoll(pollID);
+    } catch (error) {
+      this.logger.error(
+        `Failed to remove userID: ${userID} from poll: ${pollID}`,
+        error,
+      );
+    }
+  }
 
   // async addNomination(){}
 
